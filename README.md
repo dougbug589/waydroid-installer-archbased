@@ -1,4 +1,4 @@
-# Waydroid Basic Setup Script (Arch-based)
+# waydroid-installer-archbased
 
 This repo provides a simple script for basic Waydroid setup and maintenance.
 
