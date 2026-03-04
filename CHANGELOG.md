@@ -212,17 +212,3 @@ syntax error near unexpected token `else'
 - **Python:** System python3 with isolated venv
 
 ---
-
-## Future Improvements
-
-- [ ] Add more kernel variants
-- [ ] GUI installation option
-- [ ] Automated kernel installation if unsupported
-- [ ] Better error recovery mechanisms
-- [ ] Configuration backup/restore
-
----
-
-**Maintained by:** [@mak448a](https://github.com/mak448a)  
-**Based on:** [casualsnek/waydroid_script](https://github.com/casualsnek/waydroid_script)  
-**License:** MIT
