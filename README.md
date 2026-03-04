@@ -37,11 +37,42 @@ chmod +x install-waydroid.sh
 
 ## Manual shared-folder symlink setup
 
-Run these commands manually after Waydroid is installed:
+Run these steps manually after Waydroid is installed.
+
+1) Check Waydroid media folder ownership and current groups:
 
 ```bash
+ls -ld ~/.local/share/waydroid/data/media
+groups
+```
+
+2) Add your user to the group with GID `1023` (Waydroid media group):
+
+```bash
+# If GID 1023 already exists, use its group name:
+getent group 1023
+sudo usermod -aG <groupname> "$USER"
+
+# If GID 1023 does not exist yet:
+sudo groupadd -g 1023 waydroid
+sudo usermod -aG waydroid "$USER"
+```
+
+3) Re-login (or reboot), then verify:
+
+```bash
+groups
+```
+
+4) Create symlink(s) to Waydroid folders:
+
+```bash
+# Example 1: dedicated shared folder
 mkdir -p ~/.local/share/waydroid/data/media/0/Waydroid
 ln -s ~/.local/share/waydroid/data/media/0/Waydroid ~/Waydroid
+
+# Example 2: direct link to Download
+ln -s ~/.local/share/waydroid/data/media/0/Download ~/WaydroidDownload
 ```
 
 ## Kernel compatibility
