@@ -180,52 +180,6 @@ configure_ufw() {
     print_success "UFW installed/enabled and Waydroid rules applied"
 }
 
-setup_symlink_share() {
-    print_step "Symlink shared folder setup"
-    read -p "Set up shared folder symlink now? (y/N): " setup_share
-    if [[ ! "$setup_share" =~ ^[Yy]$ ]]; then
-        print_info "Skipped symlink setup"
-        return
-    fi
-
-    local waydroid_data="$SCRIPT_HOME/.local/share/waydroid/data/media/0"
-    local shared_folder="Waydroid"
-    local symlink_path="$SCRIPT_HOME/$shared_folder"
-    local waydroid_shared="$waydroid_data/$shared_folder"
-
-    if [[ ! -d "$waydroid_data" ]]; then
-        print_info "Waydroid storage path not found, creating it directly..."
-        if ! mkdir -p "$waydroid_data" 2>/dev/null; then
-            sudo mkdir -p "$waydroid_data"
-            sudo chown "$SCRIPT_USER":"$SCRIPT_USER" "$waydroid_data"
-        fi
-    fi
-
-    if [[ ! -d "$waydroid_data" ]]; then
-        print_warning "Waydroid storage path is still missing. Please rerun the script after checking permissions."
-        return
-    fi
-
-    if ! groups | grep -q "waydroid"; then
-        if grep -q "^waydroid:x:1023:" /etc/group; then
-            sudo usermod -aG waydroid "$SCRIPT_USER"
-        else
-            echo "waydroid:x:1023:$SCRIPT_USER" | sudo tee -a /etc/group >/dev/null
-        fi
-        print_warning "Re-login/reboot required for new group permissions"
-    fi
-
-    if ! mkdir -p "$waydroid_shared" 2>/dev/null; then
-        sudo mkdir -p "$waydroid_shared"
-        sudo chown "$SCRIPT_USER":"$SCRIPT_USER" "$waydroid_shared"
-    fi
-    if [[ ! -e "$symlink_path" ]]; then
-        ln -s "$waydroid_shared" "$symlink_path"
-    fi
-
-    print_success "Shared folder ready: ~/$shared_folder"
-}
-
 detect_existing_install() {
     pacman -Q waydroid &>/dev/null || [[ -d /var/lib/waydroid ]]
 }
@@ -267,8 +221,8 @@ else
     install_and_init_waydroid
     install_and_run_waydroid_script
     configure_ufw
-    setup_symlink_share
     setup_safe_waydroid_launcher
+    print_info "Optional shared-folder symlink setup moved to: ./setup-waydroid-share.sh"
 fi
 
 print_success "Done"
