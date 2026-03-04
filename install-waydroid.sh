@@ -174,8 +174,8 @@ configure_ufw() {
 
     sudo systemctl enable --now ufw
     sudo ufw --force enable
-    sudo ufw allow 53
     sudo ufw allow 67
+    sudo ufw allow 53
     sudo ufw default allow FORWARD
     print_success "UFW installed/enabled and Waydroid rules applied"
 }
