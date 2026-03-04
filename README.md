@@ -18,6 +18,8 @@ This repo provides a simple script for basic Waydroid setup and maintenance.
 - Optionally sets up symlink shared folder (auto-starts a session once if storage path is missing)
 - Creates a safe launcher that auto-runs `waydroid session stop` before start and when closing
 
+**Behavior note:** UFW setup is automatic. Symlink shared-folder setup is optional (`y/N` prompt).
+
 ## Requirements
 - Arch-based Linux
 - Wayland session
